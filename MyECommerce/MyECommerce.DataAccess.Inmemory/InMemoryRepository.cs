@@ -1,4 +1,5 @@
-﻿using MyECommerce.Core.Models;
+﻿using MyECommerce.Core.Contracts;
+using MyECommerce.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace MyECommerce.DataAccess.Inmemory
 {
-    public class InMemoryRespository<T> where T : BaseEntity
+    public class InMemoryRepository<T> : IRepository<T> where T : BaseEntity
     {
         ObjectCache cache = MemoryCache.Default;
         List<T> items;
         string className;
 
-        public InMemoryRespository()
+        public InMemoryRepository()
         {
             className = typeof(T).Name;
             items = cache[className] as List<T>;
@@ -29,6 +30,8 @@ namespace MyECommerce.DataAccess.Inmemory
             cache[className] = items;
         }
 
+
+
         public void Insert(T t)
         {
             items.Add(t);
@@ -38,7 +41,7 @@ namespace MyECommerce.DataAccess.Inmemory
         {
             T tToUpdate = items.Find(i => i.Id == t.Id);
 
-            if(tToUpdate != null)
+            if (tToUpdate != null)
             {
                 tToUpdate = t;
             }
@@ -51,7 +54,7 @@ namespace MyECommerce.DataAccess.Inmemory
         public T Find(string Id)
         {
             T t = items.Find(i => i.Id == Id);
-            if(t != null)
+            if (t != null)
             {
                 return t;
             }

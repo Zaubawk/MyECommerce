@@ -1,4 +1,5 @@
-﻿using MyECommerce.Core.Models;
+﻿using MyECommerce.Core.Contracts;
+using MyECommerce.Core.Models;
 using MyECommerce.DataAccess.Inmemory;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,12 @@ namespace MyECommerce.WebUI.Controllers
 {
     public class ProductCategoryManagerController : Controller
     {
-        InMemoryRespository<ProductCategory> context;
+        //InMemoryRespository<ProductCategory> context;
+        IRepository<ProductCategory> context;
 
-        public ProductCategoryManagerController()
+        public ProductCategoryManagerController(IRepository<ProductCategory> context)
         {
-            context = new InMemoryRespository<ProductCategory>();
+            this.context = context;
         }
         // GET: ProductManager
         public ActionResult Index()
